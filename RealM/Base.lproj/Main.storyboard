@@ -40,6 +40,9 @@
                                         <rect key="frame" x="207" y="0.0" width="103.5" height="50"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="update"/>
+                                        <connections>
+                                            <action selector="updateAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Y04-Eg-elc"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lb4-Km-ZnL">
                                         <rect key="frame" x="310.5" y="0.0" width="103.5" height="50"/>
@@ -83,6 +86,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="tableView" destination="8by-yd-PbB" id="dk2-Mo-Pa8"/>
                         <outlet property="textField" destination="hk2-pa-skl" id="fBW-NH-1SD"/>
                     </connections>
                 </viewController>

@@ -37,14 +37,6 @@ class ViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        // 중복허용 x
-        for i in 0 ... load.count{
-            if textField.text == load[i].name {
-                alertA(msg: "중복된 이름 입니다.")
-                return
-            }
-        }
-        
         guard let name = textField.text else{ return }
         
         // 지금 시간을 가져오는 dataFormatter()
@@ -70,12 +62,23 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func DelAction(_ sender: Any) {
+
         let realm = try! Realm()
-        let del = realm.objects(Content.self)
-        try? realm.write{
-            realm.delete(del)
+        
+//        // 데이터 전체 삭제
+//        let del = realm.objects(Content.self)
+//        try? realm.write{
+//            realm.deleteAll(del)
+//        }
+//        alertA(msg: "데이터가 삭제 되었습니다.")
+        
+        if let delete = realm.objects(Content.self).filter(NSPredicate(format: "name = %@", textField.text ?? "")).first{
+            try! realm.write{
+                realm.delete(delete)
+            }
+            alertA(msg: "삭제되었습니다.")
         }
-        alertA(msg: "데이터가 삭제 되었습니다.")
+        alertA(msg: "삭제 할 이름이 없습니다.")
     }
     
     @IBAction func LoadAction(_ sender: Any) {
@@ -84,7 +87,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         self.load = Array(result)
         
         tableView.reloadData()
-        alertA(msg: "데이터 갱신 완료!")
+    }
+    @IBAction func updateAction(_ sender: Any) {
+        let realm = try! Realm()
+        if let update = realm.objects(Content.self).filter(NSPredicate(format: "name = %@", textField.text ?? "")).first{
+            try! realm.write{
+                update.name = "update"
+            }
+            alertA(msg: "update로 변경됐습니다.")
+        } else{
+            alertA(msg: "변경 할 이름이 없습니다.")
+        }
     }
     
     func alertA (msg: String) {
